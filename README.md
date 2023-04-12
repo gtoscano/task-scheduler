@@ -59,6 +59,8 @@ After compiling the project, use the following command to run the task scheduler
 ```bash
 
 ./task-scheduler input.json
+# Run the example that comes in ../data
+./task-scheduler ../data/random_tree.json
 ```
 
 Replace input.json with the path to your JSON file containing the tasks and dependencies.
