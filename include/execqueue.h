@@ -7,21 +7,21 @@
 class ExecQueue {
 
     public:
-        ExecQueue(int n);
-        bool is_full();
-        bool is_empty();
+        explicit ExecQueue(int n);
+        bool is_full() const;
+        bool is_empty() const;
         bool enqueue(int value, int my_time);
         std::vector<int> dequeue();
-        int get_next();
+        int get_next() const;
         bool elapse_time();
-        int count_open_queues();
-        int get_total_time();
-        std::vector<int>  get_in_time();
-        std::vector<std::vector<int>> get_queues();
-        void print();
+        int count_open_queues() const;
+        [[nodiscard]] int get_total_time() const;
+        std::vector<int>  get_in_time() const;
+        std::vector<std::vector<int>> get_queues() const;
+        void print() const;
     private:
         std::vector<MyQueue> queues;
         int total_time;
 };
 
-#endif //EXEC_QUEUE
+#endif //EXEC_QUEUE_H

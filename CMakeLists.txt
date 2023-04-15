@@ -17,6 +17,7 @@ set(LPT_SOURCES
 set(LPT_HEADERS
         include/execqueue.h
         include/myqueue.h
+        include/taskscheduler.h
 )
 
 add_executable(task-scheduler ${LPT_SOURCES} ${LPT_HEADERS})

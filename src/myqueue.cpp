@@ -1,14 +1,9 @@
 #include "myqueue.h"
 
-#include <iostream>
 #include <vector>
 
-MyQueue::MyQueue() {
-    counter = 0;
-    time_left = 0;
-    in_time = 0;
-}
-bool MyQueue::is_ready() {
+
+bool MyQueue::is_ready() const {
     if (time_left==0 && counter >0) {
         return true;
     }
@@ -25,7 +20,7 @@ bool MyQueue::push(int value, int my_time) {
     return false;
 }
 
-int MyQueue::get_time_left() {
+int MyQueue::get_time_left() const {
     if (counter > 0){
         return time_left;
     }
@@ -35,11 +30,11 @@ int MyQueue::get_time_left() {
 }
 
 
-int MyQueue::get_in_time() {
+int MyQueue::get_in_time() const {
     return in_time;
 }
 
-std::vector<int> MyQueue::get_queue() {
+std::vector<int> MyQueue::get_queue() const {
     return queue;
 }
 
@@ -60,12 +55,13 @@ int MyQueue::pop() {
     }
     return -1;
 }
-bool MyQueue::is_accepting() {
+bool MyQueue::is_accepting() const {
 
     if (counter>0) return false;
     return true;
 }
-int MyQueue::get_counter() {
+
+int MyQueue::get_counter() const {
     return counter;
 }
 

@@ -1,15 +1,21 @@
 #include "execqueue.h"
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
 ExecQueue::ExecQueue(int n) {
     for (int i=0; i<n; ++i) {
-        queues.push_back(MyQueue());
+        queues.emplace_back();
     }
     total_time = 0;
 
 }
 
+bool ExecQueue::is_full() const {
+    return std::ranges::all_of(queues, [](auto& queue) { return queue.is_accepting(); });
+}
+
+/*
 bool ExecQueue::is_full() {
     for (auto& queue : queues) {
         if (!queue.is_accepting()) {
@@ -17,9 +23,9 @@ bool ExecQueue::is_full() {
         }
     }
     return true;
-}
+}*/
 
-bool ExecQueue::is_empty() {
+bool ExecQueue::is_empty() const {
     int sum = 0;
     for (auto& queue : queues) {
         sum += queue.get_counter();
@@ -31,7 +37,7 @@ bool ExecQueue::is_empty() {
     return false;
 }
 
-int ExecQueue::count_open_queues() {
+int ExecQueue::count_open_queues() const {
     int counter = 0;
     for (auto& queue : queues) {
         if (queue.is_accepting()) {
@@ -51,7 +57,7 @@ bool ExecQueue::enqueue(int value, int my_time) {
     return false;
 }
 
-int ExecQueue::get_next() {
+int ExecQueue::get_next() const {
     auto min_value = std::numeric_limits<int>::max(); 
     for (auto& queue : queues) {
         auto res = queue.get_time_left();
@@ -87,31 +93,33 @@ std::vector<int> ExecQueue::dequeue() {
     return ret;
 }
 
-int ExecQueue::get_total_time() {
+int ExecQueue::get_total_time() const {
     return total_time;
 
 }
 
-std::vector<int> ExecQueue::get_in_time() {
+std::vector<int> ExecQueue::get_in_time() const {
     std::vector<int> ret;
     for (auto& queue : queues) {
-        ret.push_back(queue.get_in_time());
+        auto value = queue.get_in_time();
+        ret.emplace_back(value);
     }
     return ret;
 }
-std::vector<std::vector<int>> ExecQueue::get_queues() {
+std::vector<std::vector<int>> ExecQueue::get_queues() const {
     std::vector<std::vector<int>> ret;
     for (auto& queue : queues) {
-        ret.push_back(queue.get_queue());
+        auto value = queue.get_queue();
+        ret.emplace_back(value);
     }
     return ret;
 }
-void ExecQueue::print() {
+void ExecQueue::print() const {
     int counter = 0;
     std::cout<<"Makespan: "<<total_time<<"\n";
     for (auto& queue : queues) {
         std::cout<<"Processor "<<counter<<" (makespan="<<queue.get_in_time()<<"): ";
-        for(auto & q: queue.get_queue()) {
+        for(const auto& q: queue.get_queue()) {
             std::cout<<q<<" -> ";
         }
         std::cout<<"\n";
